@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="twitterApp">
+<head>
+<title>Twitter Senti-Analysis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- bootstrap-css -->
+  
+
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<!--// bootstrap-css -->
+<!-- css -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+   
+<!--// css -->
+<!-- font-awesome icons -->
+<link href="css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- gallery -->
+<link rel="stylesheet" href="css/lightbox.css">
+<!-- //gallery -->
+<!-- font -->
+<link href="//fonts.googleapis.com/css?family=Kaushan+Script&amp;subset=latin-ext" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>
+<!-- //font -->
+<script src="js/oauth.js"></script>
+    <script src="js/angular.min.js"></script>
+	<script src="js/angular-sanitize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+	<script src="js/spinner.js"></script>
+	<script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+</script> 
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-controller="TwitterController">
+    <div>
+	<div class="banner-top">
+		<div class="slider">
+			<div class="callbacks_container">
+				<ul class="rslides callbacks callbacks1" id="slider4">
+					<li>
+						<div class="w3layouts-banner-top">
+							<div class="container">
+								<div class="agileits-banner-info">
+									<h3>T</h3>
+									<h4>Twitter</h4>
+								</div>	
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="w3layouts-banner-top w3layouts-banner-top1">
+							<div class="container">
+								<div class="agileits-banner-info1">
+									<h3>S</h3>
+									<h4>Sentimental</h4>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="w3layouts-banner-top w3layouts-banner-top2">
+							<div class="container">
+								<div class="agileits-banner-info2">
+									<h3>A</h3>
+									<h4>Analysis</h4>
+								</div>
+							</div>
+						</div>
+					</li>
+					
+				</ul>
+			</div>
+			<div class="clearfix"> </div>
+			<script src="js/responsiveslides.min.js"></script>
+			<script>
+						// You can also use "$(window).load(function() {"
+						$(function () {
+						  // Slideshow 4
+						  $("#slider4").responsiveSlides({
+							auto: true,
+							pager:true,
+							nav:false,
+							speed: 500,
+							namespace: "callbacks",
+							before: function () {
+							  $('.events').append("<li>before event fired.</li>");
+							},
+							after: function () {
+							  $('.events').append("<li>after event fired.</li>");
+							}
+						  });
+					
+						});
+			</script>
+			<!--banner Slider starts Here-->
+		</div>
+	</div>
+	
+	<!-- about -->
+	<div class="about" id="about">
+		<div class="w3-about-top">
+			<h3>T</h3>
+		</div>
+		<div class="w3l-about">
+			<div class="container">
+				<div class="w3ls-heading">
+					<h2>What is Sentimental Analysis</h2>
+				</div>
+				<div class="w3ls-about-info">
+					<p>The process of identifying and categorizing opinions expressed in a piece of text, espically in order to determine whether the writer's attitudetowards a particular topic,product,etc is positive negitive or neutral.</p>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="about" id="about">
+		<div class="w3-about-top">
+			<h3></h3>
+		</div>
+		<div class="w3l-about">
+			<div class="container">
+				<div class="w3ls-heading">
+					<h2>What do we do ?</h2>
+				</div>
+				<div class="w3ls-about-info">
+					<p> Give a #hashtag to us .We take it to twitter and fetch all tweets related to it.We process them and tell you the sentimental analysis. </p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="w3-agile-subscribe">
+					<p>Please connect to twitter by clicking on following button</p>
+					<form >
+						
+						<input ng-click="connectButton()" type="submit" value="Connect to Twitter">
+					</form>
+					
+				</div>
+	<br>
+	<br>
+	
+	<div class="footer">
+		<div class="container">
+			<div class="copyright">
+				<p>© 2017  </p>
+			</div>
+		</div>
+	</div></div>
+    
+ 
+    </div>
+	<!-- //footer -->
+	<script src="js/responsiveslides.min.js"></script>
+	<script src="js/SmoothScroll.min.js"></script>
+	<script type="text/javascript" src="js/move-top.js"></script>
+	<script type="text/javascript" src="js/easing.js"></script>
+	<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+								
+			$().UItoTop({ easingType: 'easeOutQuart' });
+								
+			});
+	</script>
+<!-- //here ends scrolling icon -->
+</body>	
+</html>
