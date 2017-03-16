@@ -6,15 +6,7 @@ app.controller('TwitterController', function($scope,$q, $http,$window, twitterSe
 	$scope.sentiResult = [];
     twitterService.initialize();
     $scope.showchart=false;
-
-    //using the OAuth authorization result get the latest 20 tweets from twitter for the user
-    $scope.refreshTimeline = function(maxId) {
-        twitterService.getLatestTweets(maxId).then(function(data) {
-            $scope.tweets = $scope.tweets.concat(data);
-        },function(){
-            $scope.rateLimitError = true;
-        });
-    }
+	var myLine;
 	
 	$scope.searchTwitter = function(hashtag) {
         this.showchart=false;
@@ -74,46 +66,7 @@ app.controller('TwitterController', function($scope,$q, $http,$window, twitterSe
 			}		
     }
 	
-	/*$scope.twitterSentiment = function() {
-
-		var resultObject = {};
-		resultObject.tweet = "";
-		resultObject.senti = "";
-		resultObject.userName = "";
-		resultObject.userLocation ="";
-		var config = {
-            headers : {'X-Mashape-Authorization' : 'xA44CDJwt1mshfrJ1cRwBxU5AVYCp1T2oFojsnmd0sMU8AYhOg', 
-					   'Content-Type': 'application/json'}	
-		}
-		
-		//for (var i = 0; i < $scope.twitterSearchResult.search_metadata.count; i++)	{
-			if (parseInt(localStorage.getItem("counter")) < $scope.twitterSearchResult.search_metadata.count) {
-						
-				var data = $.param({
-					text: $scope.tweets[parseInt(localStorage.getItem("counter"))].text
-				});
-				resultObject.tweet = $scope.tweets[parseInt(localStorage.getItem("counter"))].text;
-				$http.post('https://japerk-text-processing.p.mashape.com/sentiment/',
-							data, 
-							config).then(
-					function (data, status, headers, config) {
-							
-						resultObject.senti = data.data.label;						
-						//console.log((data));
-						console.log(resultObject);
-						if (parseInt(localStorage.getItem("counter")) < $scope.twitterSearchResult.search_metadata.count) {
-							$scope.sentiResult[parseInt(localStorage.getItem("counter"))] = resultObject;
-							localStorage.setItem("counter", parseInt(localStorage.getItem("counter")) +1 );
-							$scope.twitterSentiment();
-						} 
-					},function (data, status, header, config) {
-							alert("something is gone terrible wrong");
-					});	
-			
-			}else if (parseInt(localStorage.getItem("counter")) == $scope.twitterSearchResult.search_metadata.count){
-				$scope.chartDesign();
-			}		
-    }*/
+	
 	
 	$scope.chartDesign = function () {
 		var data = {};
@@ -122,20 +75,7 @@ app.controller('TwitterController', function($scope,$q, $http,$window, twitterSe
 		data.datasets = [];
 		data.datasets[0] = {}
 		data.datasets[0].data = [];
-	/*	data.datasets[0].borderWidth = 1;
-		data.datasets[0].label = "Sentiment Result";
-		data.datasets[0].backgroundColor = [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
-            ];
-        data.datasets[0].borderColor = [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ];*/
-			
+				
 		var counter = 0;
 		for (var i = 0; i < $scope.tweets.length; i++)	{
 			if (data.labels.indexOf($scope.sentiResult[i].senti)==-1) {
@@ -188,10 +128,10 @@ app.controller('TwitterController', function($scope,$q, $http,$window, twitterSe
         }]
 			}
 		};
-		if (myLine) {
+		if(myLine != null)  {
 			myLine.destroy();
 		}
-		var myLine = new Chart(document.getElementById("canvas").getContext("2d"), {type:'bar', data:data1, options});
+		myLine = new Chart(document.getElementById("canvas").getContext("2d"), {type:'bar', data:data1, options});
 		$scope.loading = false;
 	}
 
@@ -229,7 +169,6 @@ app.controller('TwitterController', function($scope,$q, $http,$window, twitterSe
         $('#connectButton').hide();
         $('#getTimelineButton, #getSearchTwitterButton, #getTwitterSentimentButton, #signOut').show();
     	$scope.connectedTwitter = true;
-       // $scope.refreshTimeline();
     }
 
 });
