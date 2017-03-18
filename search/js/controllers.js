@@ -3,15 +3,19 @@
 app.controller('TwitterController', function($scope,$q, $http,$window, twitterService, spinnerService) {
 
     $scope.tweets=[]; //array of tweets
+	$scope.tweets_part=[]; //array of tweets
+	$scope.searchTerm = "";
 	$scope.sentiResult = [];
     twitterService.initialize();
     $scope.showchart=false;
 	var myLine;
-	
+		$("#lbltheClickedOne").hide();
+		$("#canvas_click").hide();	
 	$scope.searchTwitter = function(hashtag) {
         this.showchart=false;
         $scope.loading = true;
         $scope.hashtag=hashtag;
+
         twitterService.getSearchResults(hashtag).then(function(data) {
 			$scope.twitterSearchResult = data;
 			data = data.statuses;
@@ -19,6 +23,8 @@ app.controller('TwitterController', function($scope,$q, $http,$window, twitterSe
 			$scope.tweets = data;
             console.log($scope.tweets);
 			localStorage.setItem("counter", 0);
+			//$("#submitSearch").
+			$('submitSearch').prop('disabled', true);
             $scope.twitterSentiment();
         },function(){
             $scope.rateLimitError = true;
@@ -69,6 +75,7 @@ app.controller('TwitterController', function($scope,$q, $http,$window, twitterSe
 	
 	
 	$scope.chartDesign = function () {
+		$('submitSearch').prop('disabled', false);
 		var data = {};
 		this.showchart=true;
 		data.labels = [];
@@ -133,8 +140,37 @@ app.controller('TwitterController', function($scope,$q, $http,$window, twitterSe
 		}
 		myLine = new Chart(document.getElementById("canvas").getContext("2d"), {type:'bar', data:data1, options});
 		$scope.loading = false;
+		
+		document.getElementById("canvas").onclick = function (evt) {
+			$("#lbltheClickedOne").show();
+			$("#canvas_click").show();
+			//$scope.tweets_part = [];
+			var activePoints = myLine.getElementAtEvent(evt);
+			var theElement = myLine.config.data.datasets[activePoints[0]._datasetIndex].data[activePoints[0]._index];
+			console.log(activePoints);
+			console.log(theElement);
+			console.log(myLine.config.data.labels[activePoints[0]._index]);
+			document.getElementById("lbltheClickedOne").innerText = myLine.config.data.labels[activePoints[0]._index];
+			$scope.searchTerm = myLine.config.data.labels[activePoints[0]._index];
+			console.log("search term is:" +$scope.searchTerm);
+			console.log("tweets: "+$scope.sentiResult);
+			for (var i = 0; i< $scope.sentiResult.length; i++) {
+				if ($scope.sentiResult[i].senti == $scope.searchTerm) {
+					$scope.tweets_part.push($scope.sentiResult[i]);
+				}
+					
+			}
+			console.log ($scope.tweets_part);
+			console.log(myLine.config.type);
+		}
+	
 	}
 
+	
+
+	
+	
+	
     //when the user clicks the connect twitter button, the popup authorization window opens
     $scope.connectButton = function() {
       

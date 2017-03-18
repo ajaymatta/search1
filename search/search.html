@@ -42,8 +42,8 @@
 						</div>	
 						
 						
-						<input ng-click="searchTwitter(hashtag)" type="submit" value="Analyze Now"> 
-						<div ng-if="loading" class="loader"></div>
+						<input ng-click="searchTwitter(hashtag)" type="submit" value="Analyze Now" id="submitSearch"> 
+						<center><div ng-if="loading" class="loader"></div></center>
 					</form>  
 				</div>
 			</div>	
@@ -51,10 +51,24 @@
 		</div>	
 	</div>	<center>
 	<div ng-show="showchart" style="width:400px;height:400px;">
-	<canvas id="canvas" style="background-color: white;" height="350" width="600"></canvas>
-	</div>
+	<canvas id="canvas" style="background-color: white;" height="350" width="600"></canvas></center>
+	<div style="width:600px;background-color:white;padding-left: 20%;padding-right: 35%;">
+	<div id="canvas_click">
+		The clicked bar's datakey:<span id="lbltheClickedOne"></span>
+	
+		<div class="row" ng-repeat="t in sentiResult | filter:{senti: searchTerm}">
 
-</center>
+                    <!--div class="col-xs-2 col-sm-1">
+                        <img ng-src="{{t.user.profile_image_url}}" class="img-circle">
+                    </div-->
+                    <div class="col-xs-10 col-sm-11">
+                        <small>{{t.userName}}</small><br> <span ng-bind-html="t.tweet"></span>
+                    </div>
+
+                </div></div></div>
+		</div>
+	
+
 <style>
 .loader {
   border: 16px solid #f3f3f3;
